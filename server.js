@@ -3,6 +3,10 @@ const express = require('express')
 const { graphqlHTTP } = require('express-graphql')
 const { buildSchema } = require('graphql')
 
+// require dotenv and call cofig
+require('dotenv').config()
+const apikey = process.env.OPENWEATHERMAP_API_KEY
+
 // SCHEMAS
 const schema = buildSchema(`
 type Test {
