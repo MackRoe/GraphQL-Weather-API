@@ -28,6 +28,15 @@ type Query {
 const root = {
     doTest: () => {
         return { message: "Test completed successfully!"}
+    },
+    getWeather: async ({ zip }) => {
+        const apikey = process.env.OPENWEATHERMAP_API_KEY
+		const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apikey}`
+		const res = await fetch(url)
+		const json = await res.json()
+		const temperature = json.main.temp
+		const description = json.weather[0].description
+		return { temperature, description }
     }
 }
 
