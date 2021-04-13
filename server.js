@@ -13,8 +13,14 @@ type Test {
 	message: String!
 }
 
+type Weather {
+    temperature: Float!
+    description: String!
+}
+
 type Query {
     doTest: Test
+    getWeather(zip: Int!): Weather!
 }
 `)
 
