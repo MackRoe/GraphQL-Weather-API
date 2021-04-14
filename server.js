@@ -20,18 +20,20 @@ enum Units {
 }
 
 type Weather {
-    temperature: Float!
-    description: String!
-    feels_like: Float!
-    temp_min: Float!
-    temp_max: Float!
-    pressure: Int!
-    humidity: Int!
+    temperature: Float
+    description: String
+    feels_like: Float
+    temp_min: Float
+    temp_max: Float
+    pressure: Int
+    humidity: Int
+    cod: String
+    message: String
 }
 
 type Query {
     doTest: Test
-    getWeather(zip: Int!, units: Units): Weather!
+    getWeather(zip: Int!, units: Units): Weather
 }
 `)
 
@@ -41,10 +43,18 @@ const root = {
         return { message: "Test completed successfully!"}
     },
     getWeather: async ({ zip, units = 'imperial' }) => {
+
         const apikey = process.env.OPENWEATHERMAP_API_KEY
 		const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apikey}&units=${units}`
 		const res = await fetch(url)
 		const json = await res.json()
+        // get cod and message
+        const cod = parseInt(json.cod)
+        const message = json.message
+        // check cod
+        if (cod !== 200) {
+            return { cod, message }
+        }
 		const temperature = json.main.temp
 		const description = json.weather[0].description
         const feels_like = json.main.feels_like
@@ -52,6 +62,8 @@ const root = {
         const temp_max = json.main.temp_max
         const pressure = json.main.pressure
         const humidity = json.main.humidity
+
+
 		return {
             temperature,
             description,
@@ -59,7 +71,9 @@ const root = {
             temp_min,
             temp_max,
             pressure,
-            humidity
+            humidity,
+            cod,
+            message
         }
     }
 }
