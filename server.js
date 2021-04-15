@@ -7,9 +7,6 @@ const fetch = require('node-fetch')
 require('dotenv').config()
 const apikey = process.env.OPENWEATHERMAP_API_KEY
 
-const cors = require( cors );
-app.use(cors());
-
 // SCHEMAS
 const schema = buildSchema(`
 type Test {
