@@ -6,8 +6,10 @@ const fetch = require('node-fetch')
 // require dotenv and call cofig
 require('dotenv').config()
 const apikey = process.env.OPENWEATHERMAP_API_KEY
-
-const cors = require( cors );
+// Create express app
+const app = express()
+// Require cors
+const cors = require( 'cors' );
 app.use(cors());
 
 // SCHEMAS
@@ -81,8 +83,7 @@ const root = {
     }
 }
 
-// Create express app
-const app = express()
+
 
 // Define a route for GraphQL
 app.use('/graphql', graphqlHTTP({
